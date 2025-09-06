@@ -153,3 +153,93 @@ def create_assignments_from_opportunity(doc, method=None):
                     assignment.append("items_to_quote", {
                         "item_code": item.item_code,
                         "quantity": item.qty,
+                        "uom": item.uom,
+                        "description": item.description
+                    })
+            
+            assignment.insert(ignore_permissions=True)
+
+@frappe.whitelist()
+def update_assignments_from_opportunity(doc, method=None):
+    """Update assignments when opportunity is updated"""
+    create_assignments_from_opportunity(doc, method)
+    
+    # Update expected closing date for all assignments
+    if doc.expected_closing:
+        frappe.db.sql("""
+            UPDATE `tabOpportunity Assignment`
+            SET expected_closing = %s
+            WHERE opportunity = %s
+        """, (doc.expected_closing, doc.name))
+
+def get_permission_query_conditions(user):
+    """Restrict employees to see only their assignments"""
+    if not user:
+        user = frappe.session.user
+    
+    if "System Manager" in frappe.get_roles(user):
+        return ""
+    
+    employee = frappe.db.get_value("Employee", {"user_id": user}, "name")
+    if employee:
+        return f"`tabOpportunity Assignment`.employee = '{employee}'"
+    
+    return "1=0"
+
+def has_permission(doc, ptype, user):
+    """Check if user has permission to access assignment"""
+    if "System Manager" in frappe.get_roles(user):
+        return True
+    
+    employee = frappe.db.get_value("Employee", {"user_id": user}, "name")
+    if employee and doc.employee == employee:
+        return True
+    
+    return False
+
+@frappe.whitelist()
+def get_employee_assignments(status=None, sort_by="expected_closing"):
+    """Get assignments for current employee user"""
+    user = frappe.session.user
+    employee = frappe.db.get_value("Employee", {"user_id": user}, "name")
+    
+    if not employee:
+        return []
+    
+    filters = {"employee": employee}
+    if status:
+        filters["status"] = status
+    
+    assignments = frappe.get_all(
+        "Opportunity Assignment",
+        filters=filters,
+        fields=["name", "opportunity", "expected_closing", "status", 
+                "assignment_date", "employee_name"],
+        order_by=f"{sort_by} asc"
+    )
+    
+    # Add opportunity details
+    for assignment in assignments:
+        opp = frappe.db.get_value(
+            "Opportunity", 
+            assignment["opportunity"], 
+            ["opportunity_name", "party_name"],
+            as_dict=True
+        )
+        if opp:
+            assignment.update(opp)
+        
+        # Calculate days remaining
+        if assignment["expected_closing"]:
+            days = (getdate(assignment["expected_closing"]) - getdate(nowdate())).days
+            assignment["days_remaining"] = days
+    
+    return assignments
+
+@frappe.whitelist()
+def update_assignment_status(assignment, status):
+    """Update assignment status"""
+    doc = frappe.get_doc("Opportunity Assignment", assignment)
+    doc.status = status
+    doc.save(ignore_permissions=True)
+    return {"success": True}
