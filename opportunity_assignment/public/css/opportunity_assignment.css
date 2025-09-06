@@ -1,0 +1,81 @@
+/* Opportunity Assignment Styles */
+.opportunity-dashboard {
+    padding: 15px;
+}
+
+.opportunity-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 4px solid transparent;
+}
+
+.opportunity-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.opportunity-card .badge {
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+.opportunity-card .badge-danger {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.assignment-details {
+    padding: 20px;
+}
+
+.assignment-details p {
+    margin-bottom: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.assignment-details ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.assignment-details li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+/* Status colors */
+.status-open { color: #007bff; }
+.status-in-progress { color: #ffc107; }
+.status-quoted { color: #28a745; }
+.status-closed { color: #6c757d; }
+.status-overdue { color: #dc3545; }
+
+/* Dashboard cards */
+.opportunity-dashboard .card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.opportunity-dashboard .card:hover {
+    transform: translateY(-2px);
+}
+
+.opportunity-dashboard .card h3 {
+    font-size: 2em;
+    margin: 0;
+}
+
+.opportunity-dashboard .card p {
+    margin: 0;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

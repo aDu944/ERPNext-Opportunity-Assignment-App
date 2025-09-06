@@ -1,0 +1,188 @@
+{
+    "actions": [],
+    "allow_rename": 1,
+    "autoname": "OA-.#####",
+    "creation": "2024-01-01 00:00:00.000000",
+    "doctype": "DocType",
+    "editable_grid": 1,
+    "engine": "InnoDB",
+    "field_order": [
+        "opportunity",
+        "employee",
+        "employee_name",
+        "employee_email",
+        "column_break_1",
+        "expected_closing",
+        "status",
+        "assignment_date",
+        "is_overdue",
+        "section_break_1",
+        "items_to_quote",
+        "section_break_2",
+        "email_sent",
+        "reminder_7_days",
+        "reminder_3_days",
+        "reminder_1_day",
+        "reminder_closing_date"
+    ],
+    "fields": [
+        {
+            "fieldname": "opportunity",
+            "fieldtype": "Link",
+            "in_list_view": 1,
+            "label": "Opportunity",
+            "options": "Opportunity",
+            "reqd": 1
+        },
+        {
+            "fieldname": "employee",
+            "fieldtype": "Link",
+            "in_list_view": 1,
+            "label": "Employee",
+            "options": "Employee",
+            "reqd": 1
+        },
+        {
+            "fetch_from": "employee.employee_name",
+            "fieldname": "employee_name",
+            "fieldtype": "Data",
+            "label": "Employee Name",
+            "read_only": 1
+        },
+        {
+            "fieldname": "employee_email",
+            "fieldtype": "Data",
+            "label": "Employee Email",
+            "read_only": 1
+        },
+        {
+            "fieldname": "column_break_1",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "expected_closing",
+            "fieldtype": "Date",
+            "in_list_view": 1,
+            "label": "Expected Closing"
+        },
+        {
+            "default": "Open",
+            "fieldname": "status",
+            "fieldtype": "Select",
+            "in_list_view": 1,
+            "label": "Status",
+            "options": "Open\nIn Progress\nQuoted\nClosed"
+        },
+        {
+            "default": "Now",
+            "fieldname": "assignment_date",
+            "fieldtype": "Datetime",
+            "label": "Assignment Date",
+            "read_only": 1
+        },
+        {
+            "default": "0",
+            "fieldname": "is_overdue",
+            "fieldtype": "Check",
+            "label": "Is Overdue",
+            "read_only": 1
+        },
+        {
+            "fieldname": "section_break_1",
+            "fieldtype": "Section Break",
+            "label": "Items to Quote"
+        },
+        {
+            "fieldname": "items_to_quote",
+            "fieldtype": "Table",
+            "label": "Items to Quote",
+            "options": "Opportunity Assignment Item"
+        },
+        {
+            "fieldname": "section_break_2",
+            "fieldtype": "Section Break",
+            "label": "Email Tracking"
+        },
+        {
+            "default": "0",
+            "fieldname": "email_sent",
+            "fieldtype": "Check",
+            "label": "Initial Email Sent",
+            "read_only": 1
+        },
+        {
+            "default": "0",
+            "fieldname": "reminder_7_days",
+            "fieldtype": "Check",
+            "label": "7 Day Reminder Sent",
+            "read_only": 1
+        },
+        {
+            "default": "0",
+            "fieldname": "reminder_3_days",
+            "fieldtype": "Check",
+            "label": "3 Day Reminder Sent",
+            "read_only": 1
+        },
+        {
+            "default": "0",
+            "fieldname": "reminder_1_day",
+            "fieldtype": "Check",
+            "label": "1 Day Reminder Sent",
+            "read_only": 1
+        },
+        {
+            "default": "0",
+            "fieldname": "reminder_closing_date",
+            "fieldtype": "Check",
+            "label": "Closing Date Reminder Sent",
+            "read_only": 1
+        }
+    ],
+    "index_web_pages_for_search": 1,
+    "links": [],
+    "modified": "2024-01-01 00:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Opportunity Assignment",
+    "name": "Opportunity Assignment",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "System Manager",
+            "share": 1,
+            "write": 1
+        },
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "Sales Manager",
+            "share": 1,
+            "write": 1
+        },
+        {
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "Employee",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "track_changes": 1
+}

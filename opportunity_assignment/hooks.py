@@ -2,11 +2,11 @@ from . import __version__ as app_version
 
 app_name = "opportunity_assignment"
 app_title = "Opportunity Assignment"
-app_publisher = "Your Company"
+app_publisher = "ALKHORA"
 app_description = "Manage opportunity assignments with automated reminders"
 app_icon = "octicon octicon-briefcase"
 app_color = "blue"
-app_email = "your-email@company.com"
+app_email = "as@alkhora.com"
 app_license = "MIT"
 
 # Includes in <head>
