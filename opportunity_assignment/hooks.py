@@ -2,45 +2,62 @@ from . import __version__ as app_version
 
 app_name = "opportunity_assignment"
 app_title = "Opportunity Assignment"
-app_publisher = "ALKHORA"
-app_description = "Manage opportunity assignments with automated reminders"
-app_icon = "octicon octicon-briefcase"
-app_color = "blue"
-app_email = "as@alkhora.com"
+app_publisher = "Your Name"
+app_description = "Auto assignment of opportunities with notifications"
+app_email = "your@email.com"
 app_license = "MIT"
 
 # Includes in <head>
-app_include_css = "/assets/opportunity_assignment/css/opportunity_assignment.css"
-app_include_js = "/assets/opportunity_assignment/js/opportunity_custom.js"
+# ------------------
 
-# Include custom scripts for specific doctypes
+# include js, css files in header of desk.html
+app_include_css = "/assets/opportunity_assignment/css/opportunity.css"
+app_include_js = "/assets/opportunity_assignment/js/opportunity.js"
+
+# include custom scss in every website theme (without file extension ".scss")
+# website_theme_scss = "opportunity_assignment/public/scss/website"
+
+# include js, css files in header of web form
+# webform_include_js = {"doctype": "public/js/doctype.js"}
+# webform_include_css = {"doctype": "public/css/doctype.css"}
+
+# include js in page
+# page_js = {"page" : "public/js/file.js"}
+
+# include js in doctype views
 doctype_js = {
-    "Opportunity": "public/js/opportunity_custom.js"
+    "Opportunity" : "public/js/opportunity.js"
 }
 
+# DocType Class
+# ---------------
+# Override standard doctype classes
+# from opportunity_assignment.opportunity_assignment.doctype.opportunity_assignment.opportunity_assignment import OpportunityAssignment
+
 # Document Events
+# ---------------
+# Hook on document methods and events
 doc_events = {
     "Opportunity": {
-        "after_insert": "opportunity_assignment.opportunity_assignment.doctype.opportunity_assignment.opportunity_assignment.create_assignments_from_opportunity",
-        "on_update": "opportunity_assignment.opportunity_assignment.doctype.opportunity_assignment.opportunity_assignment.update_assignments_from_opportunity"
+        "after_insert": "opportunity_assignment.api.after_opportunity_insert",
+        "validate": "opportunity_assignment.api.validate_opportunity",
     }
 }
 
 # Scheduled Tasks
+# ---------------
 scheduler_events = {
     "daily": [
-        "opportunity_assignment.opportunity_assignment.tasks.send_daily_reminders"
+        "opportunity_assignment.api.send_daily_reminders"
     ],
-    "hourly": [
-        "opportunity_assignment.opportunity_assignment.tasks.check_overdue_assignments"
+    "all": [
+        "opportunity_assignment.api.send_reminder_notifications"
     ]
 }
 
-# Permissions
-permission_query_conditions = {
-    "Opportunity Assignment": "opportunity_assignment.opportunity_assignment.doctype.opportunity_assignment.opportunity_assignment.get_permission_query_conditions"
-}
-
-has_permission = {
-    "Opportunity Assignment": "opportunity_assignment.opportunity_assignment.doctype.opportunity_assignment.opportunity_assignment.has_permission"
-}
+# Fixtures
+# --------
+fixtures = [
+    {"dt": "Custom Field", "filters": [["module", "=", "Opportunity Assignment"]]},
+    {"dt": "Client Script", "filters": [["module", "=", "Opportunity Assignment"]]},
+]
